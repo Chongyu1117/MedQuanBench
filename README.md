@@ -2,7 +2,7 @@
 
 <div align="center">
 
-[![GitHub Repo stars](https://img.shields.io/github/stars/hrlblab/PTQ?style=social)](https://github.com/hrlblab/PTQ/stargazers)
+[![GitHub Repo stars](https://img.shields.io/github/stars/Chongyu1117/PTQ4MedSeg?style=social)](https://github.com/Chongyu1117/PTQ4MedSeg/stargazers)
 
 </div>
 
