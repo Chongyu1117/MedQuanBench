@@ -191,3 +191,158 @@ INT8 quantization consistently preserves full-precision accuracy. In contrast, I
   </tbody>
 </table>
 </details>
+
+
+<details>
+<summary><b>Quantization results across model scales on BTCV</b></summary>
+
+<p>
+We evaluate STU-Net (Base/Large/Huge) and SwinUNETR (Tiny/Small/Base) models with increasing parameter sizes to assess whether model scale influences quantization robustness. 
+Across all models, <b>INT8 quantization</b> maintains segmentation performance nearly identical to the FP32 baseline. 
+However, the sensitivity to <b>INT4 quantization</b> does not show a consistent trend with model size: larger models are not strictly more or less robust. 
+Instead, quantization granularity emerges as a more reliable factor, as <i>adaptive stratification</i> consistently improves performance over lower-granularity schemes, highlighting its importance in achieving accurate low-bit deployment in medical imaging.
+</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Framework</th>
+      <th>Architecture</th>
+      <th>Category</th>
+      <th>Param</th>
+      <th>Precision</th>
+      <th>Quant-Granularity</th>
+      <th>DSC (↓Δ%)</th>
+      <th>NSD (↓Δ%)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td rowspan="21">nnUNet</td>
+      <td rowspan="7">STU-Net-B</td>
+      <td rowspan="7">CNN</td>
+      <td rowspan="7">58.3 M</td>
+      <td>FP32</td><td>--</td><td>0.881 (--)</td><td>0.903 (--)</td>
+    </tr>
+    <tr><td>INT W8A8</td><td>Per-channel</td><td>0.881 (0)</td><td>0.901 (0.2%)</td></tr>
+    <tr><td>INT W8A8</td><td>Per-tensor</td><td>0.881 (0)</td><td>0.902 (0.1%)</td></tr>
+    <tr><td>INT W8A8</td><td>Adaptive strat.</td><td>0.881 (0)</td><td>0.902 (0.1%)</td></tr>
+    <tr><td>INT W4A4</td><td>Per-channel</td><td>0.647 (26.6%)</td><td>0.619 (31.5%)</td></tr>
+    <tr><td>INT W4A4</td><td>Per-tensor</td><td>0.654 (25.8%)</td><td>0.636 (29.6%)</td></tr>
+    <tr><td>INT W4A4</td><td>Adaptive strat.</td><td>0.829 (5.9%)</td><td>0.833 (7.8%)</td></tr>
+    <tr>
+      <td rowspan="7">STU-Net-L</td>
+      <td rowspan="7">CNN</td>
+      <td rowspan="7">440.3 M</td>
+      <td>FP32</td><td>--</td><td>0.880 (--)</td><td>0.903 (--)</td>
+    </tr>
+    <tr><td>INT W8A8</td><td>Per-channel</td><td>0.880 (0)</td><td>0.902 (0.1%)</td></tr>
+    <tr><td>INT W8A8</td><td>Per-tensor</td><td>0.880 (0)</td><td>0.903 (0)</td></tr>
+    <tr><td>INT W8A8</td><td>Adaptive strat.</td><td>0.880 (0)</td><td>0.902 (0.1%)</td></tr>
+    <tr><td>INT W4A4</td><td>Per-channel</td><td>0.701 (20.3%)</td><td>0.695 (23.0%)</td></tr>
+    <tr><td>INT W4A4</td><td>Per-tensor</td><td>0.466 (47.0%)</td><td>0.460 (49.1%)</td></tr>
+    <tr><td>INT W4A4</td><td>Adaptive strat.</td><td>0.857 (2.6%)</td><td>0.870 (3.7%)</td></tr>
+    <tr>
+      <td rowspan="7">STU-Net-H</td>
+      <td rowspan="7">CNN</td>
+      <td rowspan="7">1,457.3 M</td>
+      <td>FP32</td><td>--</td><td>0.873 (--)</td><td>0.889 (--)</td>
+    </tr>
+    <tr><td>INT W8A8</td><td>Per-channel</td><td>0.873 (0)</td><td>0.889 (0)</td></tr>
+    <tr><td>INT W8A8</td><td>Per-tensor</td><td>0.872 (0.1%)</td><td>0.889 (0)</td></tr>
+    <tr><td>INT W8A8</td><td>Adaptive strat.</td><td>0.872 (0.1%)</td><td>0.889 (0)</td></tr>
+    <tr><td>INT W4A4</td><td>Per-channel</td><td>0.700 (19.8%)</td><td>0.681 (23.4%)</td></tr>
+    <tr><td>INT W4A4</td><td>Per-tensor</td><td>0.734 (15.9%)</td><td>0.716 (19.5%)</td></tr>
+    <tr><td>INT W4A4</td><td>Adaptive strat.</td><td>0.840 (3.8%)</td><td>0.848 (4.6%)</td></tr>
+    <tr>
+      <td rowspan="21">MONAI</td>
+      <td rowspan="7">SwinUNETR-T</td>
+      <td rowspan="7">Hybrid</td>
+      <td rowspan="7">4.1 M</td>
+      <td>FP32</td><td>--</td><td>0.684 (--)</td><td>0.586 (--)</td>
+    </tr>
+    <tr><td>INT W8A8</td><td>Per-channel/token</td><td>0.682 (0.3%)</td><td>0.583 (0.5%)</td></tr>
+    <tr><td>INT W8A8</td><td>Per-tensor</td><td>0.679 (0.7%)</td><td>0.578 (1.4%)</td></tr>
+    <tr><td>INT W8A8</td><td>Adaptive strat.</td><td>0.683 (0.1%)</td><td>0.584 (0.3%)</td></tr>
+    <tr><td>INT W4A4</td><td>Per-channel/token</td><td>0.328 (52.0%)</td><td>0.154 (73.7%)</td></tr>
+    <tr><td>INT W4A4</td><td>Per-tensor</td><td>0.019 (97.2%)</td><td>0.010 (98.3%)</td></tr>
+    <tr><td>INT W4A4</td><td>Adaptive strat.</td><td>0.347 (49.2%)</td><td>0.169 (71.2%)</td></tr>
+    <tr>
+      <td rowspan="7">SwinUNETR-S</td>
+      <td rowspan="7">Hybrid</td>
+      <td rowspan="7">15.7 M</td>
+      <td>FP32</td><td>--</td><td>0.788 (--)</td><td>0.713 (--)</td>
+    </tr>
+    <tr><td>INT W8A8</td><td>Per-channel/token</td><td>0.787 (0.1%)</td><td>0.712 (0.1%)</td></tr>
+    <tr><td>INT W8A8</td><td>Per-tensor</td><td>0.783 (0.6%)</td><td>0.704 (1.2%)</td></tr>
+    <tr><td>INT W8A8</td><td>Adaptive strat.</td><td>0.787 (0.1%)</td><td>0.713 (0)</td></tr>
+    <tr><td>INT W4A4</td><td>Per-channel/token</td><td>0.450 (42.9%)</td><td>0.324 (54.5%)</td></tr>
+    <tr><td>INT W4A4</td><td>Per-tensor</td><td>0.012 (98.5%)</td><td>0.011 (98.4%)</td></tr>
+    <tr><td>INT W4A4</td><td>Adaptive strat.</td><td>0.494 (37.3%)</td><td>0.371 (48.0%)</td></tr>
+    <tr>
+      <td rowspan="7">SwinUNETR-B</td>
+      <td rowspan="7">Hybrid</td>
+      <td rowspan="7">62.2 M</td>
+      <td>FP32</td><td>--</td><td>0.804 (--)</td><td>0.746 (--)</td>
+    </tr>
+    <tr><td>INT W8A8</td><td>Per-channel/token</td><td>0.803 (0.1%)</td><td>0.744 (0.3%)</td></tr>
+    <tr><td>INT W8A8</td><td>Per-tensor</td><td>0.802 (0.2%)</td><td>0.740 (0.8%)</td></tr>
+    <tr><td>INT W8A8</td><td>Adaptive strat.</td><td>0.804 (0)</td><td>0.745 (0.1%)</td></tr>
+    <tr><td>INT W4A4</td><td>Per-channel/token</td><td>0.380 (52.7%)</td><td>0.286 (61.7%)</td></tr>
+    <tr><td>INT W4A4</td><td>Per-tensor</td><td>0.002 (99.8%)</td><td>0.004 (99.5%)</td></tr>
+    <tr><td>INT W4A4</td><td>Adaptive strat.</td><td>0.378 (53.0%)</td><td>0.289 (61.2%)</td></tr>
+
+  </tbody>
+</table>
+
+</details>
+
+
+<details> <summary><b>Quantization results across modalities and dataset scales</b></summary> <p> This table evaluates the quantization robustness of <b>UNesT</b> and <b>SwinUNETR</b> across datasets varying in imaging modality, class numbers, and scale. BTCV and AbdomenAtlas 2.0 are abdominal <b>CT</b> segmentation datasets, while WholeBrain involves <b>MRI</b>. As dataset size and class count increase, models show greater sensitivity to <b>INT4</b>; finer granularity (e.g., <i>Adaptive stratification</i>) helps mitigate degradation. </p> <table> <thead> <tr> <th>Architecture</th> <th>Category</th> <th>Param</th> <th>Dataset</th> <th>Precision</th> <th>Quant-Granularity</th> <th>DSC (↓Δ%)</th> <th>NSD (↓Δ%)</th> </tr> </thead> <tbody>
+<tr>
+  <td rowspan="14">UNesT</td>
+  <td rowspan="14">Hybrid</td>
+  <td rowspan="14">87.3 M</td>
+  <td rowspan="7">BTCV</td>
+  <td>FP32</td><td>--</td><td>0.783 (--)</td><td>0.704 (--)</td>
+</tr>
+<tr><td>INT W8A8</td><td>Per-channel/token</td><td>0.783 (0)</td><td>0.704 (0)</td></tr>
+<tr><td>INT W8A8</td><td>Per-tensor</td><td>0.783 (0)</td><td>0.702 (0.3%)</td></tr>
+<tr><td>INT W8A8</td><td>Adaptive stratification</td><td>0.783 (0)</td><td>0.704 (0)</td></tr>
+<tr><td>INT W4A4</td><td>Per-channel/token</td><td>0.716 (8.6%)</td><td>0.615 (12.6%)</td></tr>
+<tr><td>INT W4A4</td><td>Per-tensor</td><td>0.111 (85.8%)</td><td>0.064 (90.9%)</td></tr>
+<tr><td>INT W4A4</td><td>Adaptive stratification</td><td>0.721 (7.9%)</td><td>0.618 (12.2%)</td></tr>
+<tr>
+  <td rowspan="7">WholeBrain</td>
+  <td>FP32</td><td>--</td><td>0.893 (--)</td><td>0.961 (--)</td>
+</tr>
+<tr><td>INT W8A8</td><td>Per-channel/token</td><td>0.893 (0)</td><td>0.961 (0)</td></tr>
+<tr><td>INT W8A8</td><td>Per-tensor</td><td>0.887 (0.6%)</td><td>0.959 (0.2%)</td></tr>
+<tr><td>INT W8A8</td><td>Adaptive stratification</td><td>0.893 (0)</td><td>0.961 (0)</td></tr>
+<tr><td>INT W4A4</td><td>Per-channel/token</td><td>0.697 (21.9%)</td><td>0.664 (30.9%)</td></tr>
+<tr><td>INT W4A4</td><td>Per-tensor</td><td>0.019 (97.8%)</td><td>0.034 (96.5%)</td></tr>
+<tr><td>INT W4A4</td><td>Adaptive stratification</td><td>0.753 (15.7%)</td><td>0.741 (22.9%)</td></tr>
+<tr>
+  <td rowspan="14">SwinUNETR</td>
+  <td rowspan="14">Hybrid</td>
+  <td rowspan="14">62.2 M</td>
+  <td rowspan="7">AbdomenAtlas 2.0</td>
+  <td>FP32</td><td>--</td><td>0.780 (--)</td><td>0.742 (--)</td>
+</tr>
+<tr><td>INT W8A8</td><td>Per-channel/token</td><td>0.779 (0.1%)</td><td>0.741 (0.1%)</td></tr>
+<tr><td>INT W8A8</td><td>Per-tensor</td><td>0.773 (0.9%)</td><td>0.731 (1.5%)</td></tr>
+<tr><td>INT W8A8</td><td>Adaptive stratification</td><td>0.779 (0.1%)</td><td>0.741 (0.1%)</td></tr>
+<tr><td>INT W4A4</td><td>Per-channel/token</td><td>0.179 (77.1%)</td><td>0.112 (84.9%)</td></tr>
+<tr><td>INT W4A4</td><td>Per-tensor</td><td>0.006 (99.2%)</td><td>0.004 (99.5%)</td></tr>
+<tr><td>INT W4A4</td><td>Adaptive stratification</td><td>0.194 (75.1%)</td><td>0.119 (83.9%)</td></tr>
+<tr>
+  <td rowspan="7">BTCV</td>
+  <td>FP32</td><td>--</td><td>0.804 (--)</td><td>0.746 (--)</td>
+</tr>
+<tr><td>INT W8A8</td><td>Per-channel/token</td><td>0.803 (0.1%)</td><td>0.744 (0.3%)</td></tr>
+<tr><td>INT W8A8</td><td>Per-tensor</td><td>0.802 (0.2%)</td><td>0.740 (0.8%)</td></tr>
+<tr><td>INT W8A8</td><td>Adaptive stratification</td><td>0.804 (0)</td><td>0.745 (0.1%)</td></tr>
+<tr><td>INT W4A4</td><td>Per-channel/token</td><td>0.380 (52.7%)</td><td>0.286 (61.7%)</td></tr>
+<tr><td>INT W4A4</td><td>Per-tensor</td><td>0.002 (99.8%)</td><td>0.004 (99.5%)</td></tr>
+<tr><td>INT W4A4</td><td>Adaptive stratification</td><td>0.378 (53.0%)</td><td>0.289 (61.2%)</td></tr>
+</tbody> </table> </details>
