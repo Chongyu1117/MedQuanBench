@@ -346,3 +346,19 @@ Instead, quantization granularity emerges as a more reliable factor, as <i>adapt
 <tr><td>INT W4A4</td><td>Per-tensor</td><td>0.002 (99.8%)</td><td>0.004 (99.5%)</td></tr>
 <tr><td>INT W4A4</td><td>Adaptive stratification</td><td>0.378 (53.0%)</td><td>0.289 (61.2%)</td></tr>
 </tbody> </table> </details>
+
+## Citation
+
+If you find **MedQuanBench** useful, please cite:
+
+```bibtex
+@article{qu2025post,
+  title={Post-Training Quantization for 3D Medical Image Segmentation: A Practical Study on Real Inference Engines},
+  author={Qu, Chongyu and Zhao, Ritchie and Yu, Ye and Liu, Bin and Yao, Tianyuan and Zhu, Junchao and Landman, Bennett A and Tang, Yucheng and Huo, Yuankai},
+  journal={arXiv preprint arXiv:2501.17343},
+  year={2025}
+}
+```
+
+## Acknowledgments
+
