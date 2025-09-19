@@ -75,16 +75,16 @@ We introduce **MedQuanBench**, a large-scale and diverse benchmark designed to r
 <details>
 <summary><b>MedQuanBench results on BTCV test-set</b></summary>
 
-We evaluate multiple 3D medical segmentation models under <b>FP32</b>, <b>INT8</b>, and <b>INT4</b> post-training quantization.  
-Three granularity schemes are compared:  
-1. <i>Per-tensor</i> — a single scale for activations and weights in each layer  
-2. <i>Per-channel/token</i> — separate scales for each convolutional input channel or transformer token, with all weights quantized per channel  
+<p>We evaluate multiple 3D medical segmentation models under <b>FP32</b>, <b>INT8</b> (INT W8A8), and <b>INT4</b> (INT W4A4) post-training quantization.<br/>
+Three granularity schemes are compared:<br/>
+1. <i>Per-tensor</i> — a single scale for activations and weights in each layer<br/>
+2. <i>Per-channel/token</i> — separate scales for each convolutional input channel or transformer token, with all weights quantized per channel<br/>
 3. <i>Adaptive stratification</i> — per-voxel scaling for 1×1×1 convolutions, and per-channel/token scaling elsewhere
+</p>
 
+<p>
 INT8 quantization consistently preserves full-precision accuracy. In contrast, INT4 performance varies depending on model architecture and quantization granularity: <b>hybrid models are particularly sensitive under per-tensor quantization, while CNNs degrade more gradually</b>. Reported DSC and NSD values are shown along with relative drop (↓Δ%) from the FP32 baseline.
-
-
----
+</p>
 
 <table>
   <thead>
@@ -94,27 +94,116 @@ INT8 quantization consistently preserves full-precision accuracy. In contrast, I
       <th>Category</th>
       <th>Param</th>
       <th>Precision</th>
-      <th>Granularity</th>
+      <th>Quant-Granularity</th>
       <th>DSC (↓Δ%)</th>
       <th>NSD (↓Δ%)</th>
     </tr>
   </thead>
-
   <tbody>
-    <!-- ==================== nnUNet / nnU-Net ==================== -->
+
+    <!-- ==================== nnUNet family (rowspan: 28) ==================== -->
+    <!-- ---------------- nnU-Net ---------------- -->
     <tr>
-      <td rowspan="35">nnUNet</td>
-      <td rowspan="9">nnU-Net</td>
-      <td rowspan="9">CNN</td>
-      <td rowspan="9">26.9M</td>
+      <td rowspan="28">nnUNet</td>
+      <td rowspan="7">nnU-Net</td>
+      <td rowspan="7">CNN</td>
+      <td rowspan="7">26.9&nbsp;M</td>
       <td>FP32</td><td>--</td><td>0.872 (--)</td><td>0.888 (--)</td>
     </tr>
-    <tr><td rowspan="3">INT8</td><td>Per-channel</td><td>0.870 (0.2%)</td><td>0.887 (0.1%)</td></tr>
-    <tr><td>Per-tensor</td><td>0.870 (0.2%)</td><td>0.888 (0)</td></tr>
-    <tr><td>Adaptive strat.</td><td>0.870 (0.2%)</td><td>0.887 (0.1%)</td></tr>
-    <tr><td rowspan="3">INT4</td><td>Per-channel</td><td>0.387 (55.6%)</td><td>0.354 (60.1%)</td></tr>
-    <tr><td>Per-tensor</td><td>0.170 (80.5%)</td><td>0.169 (80.9%)</td></tr>
-    <tr><td>Adaptive strat.</td><td>0.393 (54.9%)</td><td>0.358 (59.7%)</td></tr>
+    <tr><td>INT W8A8</td><td>Per-channel</td><td>0.870 (0.2%)</td><td>0.887 (0.1%)</td></tr>
+    <tr><td>INT W8A8</td><td>Per-tensor</td><td>0.870 (0.2%)</td><td>0.888 (0)</td></tr>
+    <tr><td>INT W8A8</td><td>Adaptive stratification</td><td>0.870 (0.2%)</td><td>0.887 (0.1%)</td></tr>
+    <tr><td>INT W4A4</td><td>Per-channel</td><td>0.387 (55.6%)</td><td>0.354 (60.1%)</td></tr>
+    <tr><td>INT W4A4</td><td>Per-tensor</td><td>0.170 (80.5%)</td><td>0.169 (80.9%)</td></tr>
+    <tr><td>INT W4A4</td><td>Adaptive stratification</td><td>0.393 (54.9%)</td><td>0.358 (59.7%)</td></tr>
+
+    <!-- ---------------- STU-Net-B ---------------- -->
+    <tr>
+      <td rowspan="7">STU-Net-B</td>
+      <td rowspan="7">CNN</td>
+      <td rowspan="7">58.3&nbsp;M</td>
+      <td>FP32</td><td>--</td><td>0.881 (--)</td><td>0.903 (--)</td>
+    </tr>
+    <tr><td>INT W8A8</td><td>Per-channel</td><td>0.881 (0)</td><td>0.901 (0.2%)</td></tr>
+    <tr><td>INT W8A8</td><td>Per-tensor</td><td>0.881 (0)</td><td>0.902 (0.1%)</td></tr>
+    <tr><td>INT W8A8</td><td>Adaptive stratification</td><td>0.881 (0)</td><td>0.902 (0.1%)</td></tr>
+    <tr><td>INT W4A4</td><td>Per-channel</td><td>0.647 (26.6%)</td><td>0.619 (31.5%)</td></tr>
+    <tr><td>INT W4A4</td><td>Per-tensor</td><td>0.654 (25.8%)</td><td>0.636 (29.6%)</td></tr>
+    <tr><td>INT W4A4</td><td>Adaptive stratification</td><td>0.829 (5.9%)</td><td>0.833 (7.8%)</td></tr>
+
+    <!-- ---------------- STU-Net-L ---------------- -->
+    <tr>
+      <td rowspan="7">STU-Net-L</td>
+      <td rowspan="7">CNN</td>
+      <td rowspan="7">440.3&nbsp;M</td>
+      <td>FP32</td><td>--</td><td>0.880 (--)</td><td>0.903 (--)</td>
+    </tr>
+    <tr><td>INT W8A8</td><td>Per-channel</td><td>0.880 (0)</td><td>0.902 (0.1%)</td></tr>
+    <tr><td>INT W8A8</td><td>Per-tensor</td><td>0.880 (0)</td><td>0.903 (0)</td></tr>
+    <tr><td>INT W8A8</td><td>Adaptive stratification</td><td>0.880 (0)</td><td>0.902 (0.1%)</td></tr>
+    <tr><td>INT W4A4</td><td>Per-channel</td><td>0.701 (20.3%)</td><td>0.695 (23.0%)</td></tr>
+    <tr><td>INT W4A4</td><td>Per-tensor</td><td>0.466 (47.0%)</td><td>0.460 (49.1%)</td></tr>
+    <tr><td>INT W4A4</td><td>Adaptive stratification</td><td>0.857 (2.6%)</td><td>0.870 (3.7%)</td></tr>
+
+    <!-- ---------------- STU-Net-H ---------------- -->
+    <tr>
+      <td rowspan="7">STU-Net-H</td>
+      <td rowspan="7">CNN</td>
+      <td rowspan="7">1,457.3&nbsp;M</td>
+      <td>FP32</td><td>--</td><td>0.873 (--)</td><td>0.889 (--)</td>
+    </tr>
+    <tr><td>INT W8A8</td><td>Per-channel</td><td>0.873 (0)</td><td>0.889 (0)</td></tr>
+    <tr><td>INT W8A8</td><td>Per-tensor</td><td>0.872 (0.1%)</td><td>0.889 (0)</td></tr>
+    <tr><td>INT W8A8</td><td>Adaptive stratification</td><td>0.872 (0.1%)</td><td>0.889 (0)</td></tr>
+    <tr><td>INT W4A4</td><td>Per-channel</td><td>0.700 (19.8%)</td><td>0.681 (23.4%)</td></tr>
+    <tr><td>INT W4A4</td><td>Per-tensor</td><td>0.734 (15.9%)</td><td>0.716 (19.5%)</td></tr>
+    <tr><td>INT W4A4</td><td>Adaptive stratification</td><td>0.840 (3.8%)</td><td>0.848 (4.6%)</td></tr>
+
+    <!-- ==================== MONAI family (rowspan: 14) ==================== -->
+    <!-- ---------------- SwinUNETR ---------------- -->
+    <tr>
+      <td rowspan="14">MONAI</td>
+      <td rowspan="7">SwinUNETR</td>
+      <td rowspan="7">Hybrid</td>
+      <td rowspan="7">58.5&nbsp;M</td>
+      <td>FP32</td><td>--</td><td>0.849 (--)</td><td>0.760 (--)</td>
+    </tr>
+    <tr><td>INT W8A8</td><td>Per-channel/token</td><td>0.849 (0)</td><td>0.761 (1%↑)</td></tr>
+    <tr><td>INT W8A8</td><td>Per-tensor</td><td>0.849 (0)</td><td>0.761 (1%↑)</td></tr>
+    <tr><td>INT W8A8</td><td>Adaptive stratification</td><td>0.849 (0)</td><td>0.761 (1%↑)</td></tr>
+    <tr><td>INT W4A4</td><td>Per-channel/token</td><td>0.565 (33.5%)</td><td>0.446 (41.3%)</td></tr>
+    <tr><td>INT W4A4</td><td>Per-tensor</td><td>0.059 (93.1%)</td><td>0.054 (92.9%)</td></tr>
+    <tr><td>INT W4A4</td><td>Adaptive stratification</td><td>0.571 (32.7%)</td><td>0.447 (41.2%)</td></tr>
+
+    <!-- ---------------- UNETR ---------------- -->
+    <tr>
+      <td rowspan="7">UNETR</td>
+      <td rowspan="7">Hybrid</td>
+      <td rowspan="7">92.4&nbsp;M</td>
+      <td>FP32</td><td>--</td><td>0.824 (--)</td><td>0.714 (--)</td>
+    </tr>
+    <tr><td>INT W8A8</td><td>Per-channel/token</td><td>0.824 (0)</td><td>0.714 (0)</td></tr>
+    <tr><td>INT W8A8</td><td>Per-tensor</td><td>0.802 (2.7%)</td><td>0.669 (6.3%)</td></tr>
+    <tr><td>INT W8A8</td><td>Adaptive stratification</td><td>0.809 (1.8%)</td><td>0.676 (5.3%)</td></tr>
+    <tr><td>INT W4A4</td><td>Per-channel/token</td><td>0.553 (35.3%)</td><td>0.366 (48.7%)</td></tr>
+    <tr><td>INT W4A4</td><td>Per-tensor</td><td>0.004 (99.5%)</td><td>0.004 (94.4%)</td></tr>
+    <tr><td>INT W4A4</td><td>Adaptive stratification</td><td>0.590 (28.4%)</td><td>0.386 (45.9%)</td></tr>
+
+    <!-- ==================== MedFormer family (rowspan: 7) ==================== -->
+    <!-- ---------------- MedFormer ---------------- -->
+    <tr>
+      <td rowspan="7">MedFormer</td>
+      <td rowspan="7">MedFormer</td>
+      <td rowspan="7">Hybrid</td>
+      <td rowspan="7">36.6&nbsp;M</td>
+      <td>FP32</td><td>--</td><td>0.882 (--)</td><td>0.826 (--)</td>
+    </tr>
+    <tr><td>INT W8A8</td><td>Per-channel/token</td><td>0.882 (0)</td><td>0.826 (0)</td></tr>
+    <tr><td>INT W8A8</td><td>Per-tensor</td><td>0.880 (0.2%)</td><td>0.823 (0.3%)</td></tr>
+    <tr><td>INT W8A8</td><td>Adaptive stratification</td><td>0.882 (0)</td><td>0.826 (0)</td></tr>
+    <tr><td>INT W4A4</td><td>Per-channel/token</td><td>0.654 (25.9%)</td><td>0.462 (44.1%)</td></tr>
+    <tr><td>INT W4A4</td><td>Per-tensor</td><td>0.000 (100%)</td><td>0.000 (100%)</td></tr>
+    <tr><td>INT W4A4</td><td>Adaptive stratification</td><td>0.719 (18.5%)</td><td>0.610 (26.3%)</td></tr>
 
   </tbody>
 </table>
