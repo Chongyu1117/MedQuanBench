@@ -100,9 +100,6 @@ INT8 quantization consistently preserves full-precision accuracy. In contrast, I
     </tr>
   </thead>
   <tbody>
-
-    <!-- ==================== nnUNet family (rowspan: 28) ==================== -->
-    <!-- ---------------- nnU-Net ---------------- -->
     <tr>
       <td rowspan="28">nnUNet</td>
       <td rowspan="7">nnU-Net</td>
@@ -116,8 +113,6 @@ INT8 quantization consistently preserves full-precision accuracy. In contrast, I
     <tr><td>INT W4A4</td><td>Per-channel</td><td>0.387 (55.6%)</td><td>0.354 (60.1%)</td></tr>
     <tr><td>INT W4A4</td><td>Per-tensor</td><td>0.170 (80.5%)</td><td>0.169 (80.9%)</td></tr>
     <tr><td>INT W4A4</td><td>Adaptive stratification</td><td>0.393 (54.9%)</td><td>0.358 (59.7%)</td></tr>
-
-    <!-- ---------------- STU-Net-B ---------------- -->
     <tr>
       <td rowspan="7">STU-Net-B</td>
       <td rowspan="7">CNN</td>
@@ -130,8 +125,6 @@ INT8 quantization consistently preserves full-precision accuracy. In contrast, I
     <tr><td>INT W4A4</td><td>Per-channel</td><td>0.647 (26.6%)</td><td>0.619 (31.5%)</td></tr>
     <tr><td>INT W4A4</td><td>Per-tensor</td><td>0.654 (25.8%)</td><td>0.636 (29.6%)</td></tr>
     <tr><td>INT W4A4</td><td>Adaptive stratification</td><td>0.829 (5.9%)</td><td>0.833 (7.8%)</td></tr>
-
-    <!-- ---------------- STU-Net-L ---------------- -->
     <tr>
       <td rowspan="7">STU-Net-L</td>
       <td rowspan="7">CNN</td>
@@ -144,8 +137,6 @@ INT8 quantization consistently preserves full-precision accuracy. In contrast, I
     <tr><td>INT W4A4</td><td>Per-channel</td><td>0.701 (20.3%)</td><td>0.695 (23.0%)</td></tr>
     <tr><td>INT W4A4</td><td>Per-tensor</td><td>0.466 (47.0%)</td><td>0.460 (49.1%)</td></tr>
     <tr><td>INT W4A4</td><td>Adaptive stratification</td><td>0.857 (2.6%)</td><td>0.870 (3.7%)</td></tr>
-
-    <!-- ---------------- STU-Net-H ---------------- -->
     <tr>
       <td rowspan="7">STU-Net-H</td>
       <td rowspan="7">CNN</td>
@@ -158,9 +149,6 @@ INT8 quantization consistently preserves full-precision accuracy. In contrast, I
     <tr><td>INT W4A4</td><td>Per-channel</td><td>0.700 (19.8%)</td><td>0.681 (23.4%)</td></tr>
     <tr><td>INT W4A4</td><td>Per-tensor</td><td>0.734 (15.9%)</td><td>0.716 (19.5%)</td></tr>
     <tr><td>INT W4A4</td><td>Adaptive stratification</td><td>0.840 (3.8%)</td><td>0.848 (4.6%)</td></tr>
-
-    <!-- ==================== MONAI family (rowspan: 14) ==================== -->
-    <!-- ---------------- SwinUNETR ---------------- -->
     <tr>
       <td rowspan="14">MONAI</td>
       <td rowspan="7">SwinUNETR</td>
@@ -174,8 +162,6 @@ INT8 quantization consistently preserves full-precision accuracy. In contrast, I
     <tr><td>INT W4A4</td><td>Per-channel/token</td><td>0.565 (33.5%)</td><td>0.446 (41.3%)</td></tr>
     <tr><td>INT W4A4</td><td>Per-tensor</td><td>0.059 (93.1%)</td><td>0.054 (92.9%)</td></tr>
     <tr><td>INT W4A4</td><td>Adaptive stratification</td><td>0.571 (32.7%)</td><td>0.447 (41.2%)</td></tr>
-
-    <!-- ---------------- UNETR ---------------- -->
     <tr>
       <td rowspan="7">UNETR</td>
       <td rowspan="7">Hybrid</td>
@@ -188,9 +174,6 @@ INT8 quantization consistently preserves full-precision accuracy. In contrast, I
     <tr><td>INT W4A4</td><td>Per-channel/token</td><td>0.553 (35.3%)</td><td>0.366 (48.7%)</td></tr>
     <tr><td>INT W4A4</td><td>Per-tensor</td><td>0.004 (99.5%)</td><td>0.004 (94.4%)</td></tr>
     <tr><td>INT W4A4</td><td>Adaptive stratification</td><td>0.590 (28.4%)</td><td>0.386 (45.9%)</td></tr>
-
-    <!-- ==================== MedFormer family (rowspan: 7) ==================== -->
-    <!-- ---------------- MedFormer ---------------- -->
     <tr>
       <td rowspan="7">MedFormer</td>
       <td rowspan="7">MedFormer</td>
@@ -207,5 +190,4 @@ INT8 quantization consistently preserves full-precision accuracy. In contrast, I
 
   </tbody>
 </table>
-
 </details>
